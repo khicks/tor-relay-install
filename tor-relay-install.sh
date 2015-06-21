@@ -90,11 +90,11 @@ echo
 # add repository
 if ! grep -q "https://deb.torproject.org/torproject.org" /etc/apt/sources.list; then
   echo "Adding Tor repository..."
-  echo -e "\n#Official Tor repositories"
+  echo -e "\n#Official Tor repositories" >> /etc/apt/sources.list
   echo "deb https://deb.torproject.org/torproject.org `lsb_release -cs` main" >> /etc/apt/sources.list
   echo "deb-src http://deb.torproject.org/torproject.org `lsb_release -cs` main" >> /etc/apt/sources.list
-  gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
-  gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
+  gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 > /dev/null
+  gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add - > /dev/null
 fi
 
 # update apt
@@ -103,6 +103,9 @@ apt-get update > /dev/null
 
 # install tor
 echo "Installing Tor..."
+apt-get install -y debconf-utils > /dev/null
+echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" | debconf-set-selections > /dev/null
+echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debconf-set-selections > /dev/null
 apt-get install -y tor deb.torproject.org-keyring iptables iptables-persistent > /dev/null
 service tor stop
 
