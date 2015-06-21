@@ -93,8 +93,8 @@ if ! grep -q "https://deb.torproject.org/torproject.org" /etc/apt/sources.list; 
   echo -e "\n#Official Tor repositories" >> /etc/apt/sources.list
   echo "deb https://deb.torproject.org/torproject.org `lsb_release -cs` main" >> /etc/apt/sources.list
   echo "deb-src http://deb.torproject.org/torproject.org `lsb_release -cs` main" >> /etc/apt/sources.list
-  gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 > /dev/null
-  gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add - > /dev/null
+  gpg -q --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 &> /dev/null
+  gpg -q --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add - > /dev/null
 fi
 
 # update apt
