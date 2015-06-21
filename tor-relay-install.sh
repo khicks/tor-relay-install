@@ -61,7 +61,7 @@ fi
 REPLY=""
 until [[ "$REPLY" =~ ^[0-9]+$ ]] && [ "$REPLY" -ge 1 -a "$REPLY" -le ${#ADDRESSES[@]} ]; do
   echo "You have ${#ADDRESSES[@]} active interface(s) that you can use for your relay:"
-  for i in `seq 1 ${#ADDRESSES[@]}`; do
+  for i in `seq 2 ${#ADDRESSES[@]}`; do
     echo "  $i) ${ADDRESSES[i-1]}"
   done
   read -e -p "Which one would you like for your relay to listen on?: " -r
@@ -88,10 +88,10 @@ fi
 echo
 
 # add repository
-if ! grep -q "https://deb.torproject.org/torproject.org" /etc/apt/sources.list; then
+if ! grep -q "http://deb.torproject.org/torproject.org" /etc/apt/sources.list; then
   echo "Adding Tor repository..."
   echo -e "\n#Official Tor repositories" >> /etc/apt/sources.list
-  echo "deb https://deb.torproject.org/torproject.org `lsb_release -cs` main" >> /etc/apt/sources.list
+  echo "deb http://deb.torproject.org/torproject.org `lsb_release -cs` main" >> /etc/apt/sources.list
   echo "deb-src http://deb.torproject.org/torproject.org `lsb_release -cs` main" >> /etc/apt/sources.list
   gpg -q --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 &> /dev/null
   gpg -q --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add - > /dev/null
@@ -106,7 +106,7 @@ echo "Installing Tor..."
 apt-get install -y debconf-utils > /dev/null
 echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" | debconf-set-selections > /dev/null
 echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debconf-set-selections > /dev/null
-apt-get install -y tor deb.torproject.org-keyring iptables iptables-persistent > /dev/null
+apt-get install -y tor deb.torproject.org-keyring iptables iptables-persistent &> /dev/null
 service tor stop
 
 # configure tor
