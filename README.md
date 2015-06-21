@@ -12,6 +12,7 @@ This script will:
 * Add firewall rules to allow traffic to and, if needed, forward the correct ports to the Tor service.
 
 To run, simply do:
+
         $ chmod +x tor-relay-install.sh
         $ sudo ./tor-relay-install.sh
 
