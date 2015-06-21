@@ -61,7 +61,7 @@ fi
 REPLY=""
 until [[ "$REPLY" =~ ^[0-9]+$ ]] && [ "$REPLY" -ge 1 -a "$REPLY" -le ${#ADDRESSES[@]} ]; do
   echo "You have ${#ADDRESSES[@]} active interface(s) that you can use for your relay:"
-  for i in `seq 2 ${#ADDRESSES[@]}`; do
+  for i in `seq 1 ${#ADDRESSES[@]}`; do
     echo "  $i) ${ADDRESSES[i-1]}"
   done
   read -e -p "Which one would you like for your relay to listen on?: " -r
